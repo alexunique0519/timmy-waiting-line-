@@ -1,64 +1,163 @@
 <!doctype html>
 <html>
-    <head>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
+
+<head>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        var run ;
+        var interval = 1000;
+        $(document).ready(function () {
+            jQuery("#year").append(new Date().getFullYear());
+            $('#loading_image').hide();
+            display_ct();
+        });
+        var val = $("#select-timeInterval option:selected").val();
+        var running = false;
+
+        function ReloadImage() {
+            $("#image").attr("src", "http://timmycam.conestogac.on.ca/IMAGE.JPG?" + new Date().getTime());
+            /*setTimeout("ReloadImage()", 1000);*/
           
-          var run;
-            
-          function ReloadImage(){
-                     $("#image").attr("src", "http://timmycam.conestogac.on.ca/IMAGE.JPG?" + new Date().getTime());
-                    /*setTimeout("ReloadImage()", 1000);*/
-                    console.log("the code is running!!!");     
-            }
-          
-          function StartReload()
-          {
-             run  = setInterval(ReloadImage, 1000);
-          }  
-            
-          
-            
-          function StopReload(){
-            
-              clearInterval(run);
-          }
-            
-            
-            
-        </script>
-    </head>
-    
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                 <div class="col-xs-1 col-md-4"></div>
-                <h4  class="col-xs-10 col-md-4 ui-title text-center">Timmy Waiting line</h4>
-                <div class="col-xs-1 col-md-4"></div>
+            console.log("the code is running!!!");
+        }
+
+        function StartReload() {
+            run = setInterval(ReloadImage, val * interval);
+            running = true;
+        }
+        function StopReload() {
+            clearInterval(run);
+            running = false;
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-1 col-md-4"></div>
+            <div class="col-xs-10 col-md-4">
+                <h4 class="ui-title text-center">Timmy Waiting Line</h4>
+                <span id='ct' class="pull-right" style="padding-right: 5%;" ></span>
             </div>
-            <div class="row">
-                <div class="col-xs-1 col-md-4"></div>
-                <div class="col-xs-10 col-md-4"><img class="img-responsive" id="image" src=""/></div>
-                <div class="col-xs-1 col-md-4"></div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-xs-1 col-md-4"></div>
-                 
-                <div class="col-xs-10 col-md-4">
-                    <button type="button" class="btn btn-success" onClick="StartReload() ">Start</button>
-                    <button type="button" class="btn btn-primary" onClick="StopReload()">Stop</button>
-                    
-                </div> 
-                <div class="col-xs-1 col-md-4"></div>
+            <div class="col-xs-1 col-md-4">
+
             </div>
 
-            
+
         </div>
-    
-    </body>
-    
+        <div class="row">
+            <div class="col-xs-1 col-md-4"></div>
+            <div class="col-xs-10 col-md-4">
+                <img class="img-responsive" id="image" style="height : 274px; width : 365;" src="./Image/default.jpg" />
+                <div id="loading_image" style="height : 274px; width : 365;"><!--style="postion:absolute; top:50%;"-->
+                    <i class="fa fa-spinner fa-pulse fa-4x " style=" margin-top : 35%; margin-left : 35%"   ></i>
+                </div>
+            </div>
+            <div class="col-xs-1 col-md-4"></div>
+        </div>
+
+        <br/>
+        <div class="row">
+            <div class="col-xs-1 col-md-4"></div>
+
+            <div class="col-xs-10 col-md-4">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        <label for="camera">Live view:</label>
+                        <select name="camera" id="camera" data-role="slider">
+                            <option value="off">Off</option>
+                            <option value="on">On</option>
+                        </select>
+                    </div>
+
+                    <div class="col-xs-6 col-md-6">
+                        <label for="select-timeInterval">Time interval:</label>
+                         <select name="select-timeInterval" id="select-timeInterval" data-mini="true" >
+                            <option value="1">1 sec</option>
+                            <option value="5">5 secs</option>
+                            <option value="10">10 secs</option>
+                            <option value="15">15 secs</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-1 col-md-4"></div>
+        </div>
+
+        <script >
+        function display_c(){
+            var refresh=1000; // Refresh rate in milli seconds
+            mytime=setTimeout('display_ct()',refresh)
+         }
+
+        function display_ct() {
+        var strcount;
+        var x = new Date();
+        var offset = (x.getTimezoneOffset())*60*1000;
+        //x-=offset;
+        var time_with_offset = new Date (x.getTime() - offset);
+        var x1=time_with_offset.toUTCString();
+        x1 = x1.substring(0, x1.length-3);
+        // changing the display to UTC string
+        document.getElementById('ct').innerHTML = x1;
+        tt=display_c();
+        }
+
+        function reset(){
+                //$('#loading_image').attr('style', 'visibility : hidden; height : 300px;');
+                $('#loading_image').hide();
+                $("#image").show();
+        }
+
+         $("#image").load(function(){
+                if($("#camera option:selected").val() == "on")
+                    reset();
+        });
+
+        $("#select-timeInterval").change( function (e) {
+
+                    val = $("#select-timeInterval option:selected").val();
+                    console.log(e.target.options[e.target.selectedIndex].text);
+
+                    if (running){
+                        StopReload() ;
+                        StartReload();
+                    }
+        }).change();
+
+        $("#camera").change( function (e) {
+                    var view_val = $("#camera option:selected").val();
+                    if (view_val == "on"){
+                        $("#image").hide();
+                        //$('#loading_image').attr('style', 'visibility : visible; height : 300px;');
+                        $('#loading_image').show();
+                        StartReload();
+                    }else if (view_val == "off"){
+                        reset();
+                        StopReload() ;
+                        $("#image").attr("src", "./Image/default.jpg");
+                    }
+        }).change();
+        </script>
+
+        <footer id="footer" style="text-align:center;  width: 100%; height: 25px;position: absolute;bottom: 0px; ">
+            <p>&copy;&nbsp;Copyright&nbsp;<span id="year"></span>&nbsp;Yan-Zahidali-Kateryna.</p>
+        </footer>
+    </div>
+
+</body>
+
 </html>
