@@ -1,0 +1,11 @@
+<widget id="timmy" version="0.0.1">
+        <name>Timmy Waiting Line</name>
+        <description>
+            A sample Apache Cordova application that display the view of the Tim hortons waiting line.
+        </description>
+        <author email="alexunique0519@gmail.com" href="http://phonegap.com">
+            Alex yan
+        </author>
+        <content src="index.html" />
+        <access origin="*" />
+    </widget>
